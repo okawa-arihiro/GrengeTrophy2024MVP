@@ -14,7 +14,7 @@
             vr-mode-ui="enabled: true;"
             loading-screen="enabled: true;"
             renderer="logarithmicDepthBuffer: true;"
-            arjs="trackingMethod: best; sourceType: webcam; detectionMode: mono; debugUIEnabled: true;"
+            arjs="trackingMethod: best; sourceType: webcam; detectionMode: mono; debugUIEnabled: true; markersAreaEnabled: true;"
             embedded
             gesture-detector
         >
@@ -29,6 +29,7 @@
                 type="pattern"
                 preset="custom"
                 url="./assets/marker.patt"
+                size="3.0"
                 raycaster="objects: .clickable"
                 emitevents="true"
                 cursor="fuse: false; rayOrigin: mouse;"
