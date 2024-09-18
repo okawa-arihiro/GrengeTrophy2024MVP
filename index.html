@@ -21,7 +21,7 @@
             <a-assets>
                 <a-asset-item
                     id="animated-asset"
-                    src="./assets/asset.dae"
+                    src="./assets/asset.glb"
                 ></a-asset-item>
             </a-assets>
 
@@ -36,8 +36,9 @@
             >
                 <a-entity
                     class="clickable"
-                    collada-model="url(./assets/asset.dae)"
+                    gltf-model="animated-asset"
                     scale="0.2 0.2 0.2"
+                    position="0 0 10"
                     gesture-handler
                 ></a-entity>
             </a-marker>
