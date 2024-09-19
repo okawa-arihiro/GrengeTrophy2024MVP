@@ -49,17 +49,24 @@
 
             <script>
                 let marker = document.querySelector("#animated-marker");
-                let model = document.querySelector("#animated-model");
-                    marker.addEventListener("markerFound", function () {
-                    
+            let model = document.querySelector("#animated-model");
+            let isModelFixed = false;
+
+            marker.addEventListener("markerFound", function () {
+                if (!isModelFixed) {
+                    setTimeout(function () {
                         const currentPosition = model.getAttribute("position");
                         const currentRotation = model.getAttribute("rotation");
-                    
-                        marker.removeEventListener("markerLost", function () {
-                            model.setAttribute("position", currentPosition);
-                            model.setAttribute("rotation", currentRotation);
-                        });
-                    });
+
+                        model.setAttribute("position", currentPosition);
+                        model.setAttribute("rotation", currentRotation);
+
+                        marker.removeAttribute("emitevents");
+
+                        isModelFixed = true;
+                    }, 1500);
+                }
+            });
             </script>
 
             <a-entity camera></a-entity>
