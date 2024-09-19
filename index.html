@@ -51,24 +51,59 @@
         </a-scene>
 
         <script>
-            let model = document.querySelector("#animated-model");
-            let isModelFixed = false;
+            // 閾値設定
+            const POSITION_THRESHOLD = 0.05; // 位置の閾値
+            const ROTATION_THRESHOLD = 1.0; // 回転の閾値
+
+            // モデルの位置と回転を初期化
+            let previousPosition = { x: 0, y: 0, z: 0 };
+            let previousRotation = { x: 0, y: 0, z: 0 };
+
+            const model = document.querySelector("#animated-model");
+
+            model.addEventListener("componentinitialized", function () {
+                // モデルの初期位置と回転を取得
+                previousPosition = model.getAttribute("position");
+                previousRotation = model.getAttribute("rotation");
+            });
 
             model.addEventListener("click", function () {
-                if (!isModelFixed) {
-                    
-                    const currentPosition = model.getAttribute("position");
-                    const currentRotation = model.getAttribute("rotation");
+                // 現在の位置と回転を取得
+                const currentPosition = model.getAttribute("position");
+                const currentRotation = model.getAttribute("rotation");
 
-                    
-                    model.setAttribute("position", currentPosition);
-                    model.setAttribute("rotation", currentRotation);
+                // 位置と回転の変化を計算
+                const positionChange = {
+                    x: Math.abs(currentPosition.x - previousPosition.x),
+                    y: Math.abs(currentPosition.y - previousPosition.y),
+                    z: Math.abs(currentPosition.z - previousPosition.z),
+                };
+                const rotationChange = {
+                    x: Math.abs(currentRotation.x - previousRotation.x),
+                    y: Math.abs(currentRotation.y - previousRotation.y),
+                    z: Math.abs(currentRotation.z - previousRotation.z),
+                };
 
+                // フィルタリングの適用
+                if (
+                    positionChange.x > POSITION_THRESHOLD ||
+                    positionChange.y > POSITION_THRESHOLD ||
+                    positionChange.z > POSITION_THRESHOLD ||
+                    rotationChange.x > ROTATION_THRESHOLD ||
+                    rotationChange.y > ROTATION_THRESHOLD ||
+                    rotationChange.z > ROTATION_THRESHOLD
+                ) {
+                    // モデルの位置と回転を固定
+                    model.setAttribute("position", previousPosition);
+                    model.setAttribute("rotation", previousRotation);
 
+                    // モデルのクリックイベントを無効にする
                     model.removeAttribute("gesture-handler");
-
-                    isModelFixed = true;
                 }
+
+                // 現在の位置と回転を前回の値として保存
+                previousPosition = currentPosition;
+                previousRotation = currentRotation;
             });
         </script>
     </body>
