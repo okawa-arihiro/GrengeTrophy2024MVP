@@ -56,15 +56,15 @@
 
             model.addEventListener("click", function () {
                 if (!isModelFixed) {
-                    // モデルの現在の位置と回転を取得
+                    
                     const currentPosition = model.getAttribute("position");
                     const currentRotation = model.getAttribute("rotation");
 
-                    // モデルの位置を固定
+                    
                     model.setAttribute("position", currentPosition);
                     model.setAttribute("rotation", currentRotation);
 
-                    // モデルのクリックイベントを無効にする（再度位置変更ができないようにする）
+
                     model.removeAttribute("gesture-handler");
 
                     isModelFixed = true;
