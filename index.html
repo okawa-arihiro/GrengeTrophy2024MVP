@@ -48,6 +48,26 @@
         </a-scene>
 
         <script>
+            
+            // モデルの横方向の回転を管理
+            const model = document.querySelector("#animated-model");
+            let initialRotation = 0;
+
+            // ドラッグの開始時に初期の回転値を取得
+            model.addEventListener("dragstart", function (event) {
+                initialRotation = model.getAttribute("rotation").y;
+            });
+
+            // ドラッグ中にモデルを横方向に回転
+            model.addEventListener("dragmove", function (event) {
+                const deltaX = event.detail.positionChange.x;
+
+                // z軸（水平）回転のみ許可
+                const newYRotation = initialRotation + deltaX * 2; // 回転速度を調整
+                model.setAttribute("rotation", { x: 0, y: newYRotation, z: 0 });
+            });
+            
+            
             // 閾値設定
             const POSITION_THRESHOLD = 3.0; // 位置の閾値
             const ROTATION_THRESHOLD = 1.0; // 回転の閾値
